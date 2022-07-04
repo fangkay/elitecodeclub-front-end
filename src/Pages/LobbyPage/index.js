@@ -3,22 +3,21 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createGame } from "../../store/game/actions";
-import { SelectGame } from "../../store/game/selectors";
+import { selectAllGames, selectGame } from "../../store/game/selectors";
 
 // const socket = io.connect("http://localhost:3001");
 
 export const LobbyPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const game = useSelector(SelectGame);
+  const game = useSelector(selectGame);
+  const games = useSelector(selectAllGames);
   const [room, setRoom] = useState("");
   const [username, setUsername] = useState("");
 
-  console.log(game);
-
   useEffect(() => {
     if (game) {
-      navigate("/game");
+      navigate("/list");
     }
   }, [navigate, game]);
 
@@ -42,7 +41,7 @@ export const LobbyPage = () => {
         <label htmlFor="room">Room ID</label>
         <input
           name="room"
-          type="text"
+          type="number"
           placeholder="Enter Room ID"
           onChange={(event) => {
             setRoom(event.target.value);
@@ -59,7 +58,7 @@ export const LobbyPage = () => {
           }}
         />
 
-        <button type="submit">Join room</button>
+        <button type="submit">Create game</button>
       </form>
     </div>
   );
