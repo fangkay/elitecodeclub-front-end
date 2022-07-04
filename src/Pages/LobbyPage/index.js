@@ -1,15 +1,26 @@
 import io from "socket.io-client";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { createGame } from "../../store/game/actions";
+import { SelectGame } from "../../store/game/selectors";
 
 // const socket = io.connect("http://localhost:3001");
 
 export const LobbyPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const game = useSelector(SelectGame);
   const [room, setRoom] = useState("");
   const [username, setUsername] = useState("");
+
+  console.log(game);
+
+  useEffect(() => {
+    if (game) {
+      navigate("/game");
+    }
+  }, [navigate, game]);
 
   // const joinRoom = () => {
   //   if (!room || !username) {
@@ -28,17 +39,21 @@ export const LobbyPage = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="room">Room ID</label>
         <input
+          name="room"
           type="text"
-          placeholder="Room number..."
+          placeholder="Enter Room ID"
           onChange={(event) => {
             setRoom(event.target.value);
           }}
         />
 
+        <label htmlFor="username">Username</label>
         <input
+          name="username"
           type="text"
-          placeholder="Username"
+          placeholder="Enter username"
           onChange={(event) => {
             setUsername(event.target.value);
           }}

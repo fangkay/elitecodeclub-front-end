@@ -6,7 +6,10 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    createNewGame: (state, action) => {},
+    createNewGame: (state, action) => {
+      state.game = action.payload;
+      console.log(action.payload);
+    },
   },
 });
 
