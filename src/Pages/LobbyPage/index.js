@@ -15,11 +15,11 @@ export const LobbyPage = () => {
   const [room, setRoom] = useState("");
   const [username, setUsername] = useState("");
 
-  useEffect(() => {
-    if (game) {
-      navigate("/list");
-    }
-  }, [navigate, game]);
+  // useEffect(() => {
+  // if (game) {
+  // navigate("/list");
+  // }
+  // }, [navigate, game]);
 
   // const joinRoom = () => {
   //   if (!room || !username) {
@@ -32,7 +32,7 @@ export const LobbyPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createGame(room));
+    dispatch(createGame(room, navigate));
   };
 
   return (

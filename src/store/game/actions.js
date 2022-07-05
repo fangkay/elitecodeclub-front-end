@@ -1,14 +1,15 @@
 import axios from "axios";
 import { apiUrl } from "../../config/constants";
-import { createNewGame, fetchGames } from "./slice";
+import { createNewGame, fetchGames, fetchSingleGame } from "./slice";
 
-export const createGame = (name) => {
+export const createGame = (name, navigate) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.post(`${apiUrl}/game`, {
         name,
       });
       console.log(response.data);
+      navigate("/list");
       dispatch(createNewGame(response.data));
     } catch (e) {
       console.log(e.message);
@@ -23,4 +24,26 @@ export const getAllGames = async (dispatch, getState) => {
   } catch (e) {
     console.log(e.message);
   }
+};
+
+export const getSingleGame = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get(`${apiUrl}/game/${id}`);
+      dispatch(fetchSingleGame(response.data));
+      console.log(response.data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const startNewGame = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.post();
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 };
