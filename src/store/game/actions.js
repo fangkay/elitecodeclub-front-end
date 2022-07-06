@@ -9,7 +9,6 @@ export const createGame = (name, navigate) => {
         name,
       });
       console.log(response.data);
-      navigate("/list");
       dispatch(createNewGame(response.data));
     } catch (e) {
       console.log(e.message);
@@ -41,7 +40,10 @@ export const getSingleGame = (id) => {
 export const startNewGame = (id) => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.post();
+      const response = await axios.post(`${apiUrl}/game/start`, {
+        gameId: id,
+      });
+      return response.data;
     } catch (e) {
       console.log(e.message);
     }

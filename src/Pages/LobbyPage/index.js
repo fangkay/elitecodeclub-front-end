@@ -1,65 +1,31 @@
-import io from "socket.io-client";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { createGame } from "../../store/game/actions";
-import { selectAllGames, selectGame } from "../../store/game/selectors";
-
-// const socket = io.connect("http://localhost:3001");
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { storeUsername } from "../../store/user/actions";
 
 export const LobbyPage = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const game = useSelector(selectGame);
-  const games = useSelector(selectAllGames);
-  const [room, setRoom] = useState("");
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
 
-  // useEffect(() => {
-  // if (game) {
-  // navigate("/list");
-  // }
-  // }, [navigate, game]);
-
-  // const joinRoom = () => {
-  //   if (!room || !username) {
-  //     console.log("Please enter a room ID/username");
-  //   } else {
-  //     console.log("test");
-  //     socket.emit("join_room", room);
-  //   }
-  // };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(createGame(room, navigate));
+  const navigateToList = () => {
+    dispatch(storeUsername(username));
+    navigate("/list");
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="room">Room ID</label>
-        <input
-          name="room"
-          type="number"
-          placeholder="Enter Room ID"
-          onChange={(event) => {
-            setRoom(event.target.value);
-          }}
-        />
-
-        <label htmlFor="username">Username</label>
-        <input
-          name="username"
-          type="text"
-          placeholder="Enter username"
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
-        />
-
-        <button type="submit">Create game</button>
-      </form>
+      <label htmlFor="username">Your username</label>
+      <input
+        name="username"
+        type="text"
+        value={username}
+        placeholder="Enter username"
+        onChange={(event) => {
+          setUsername(event.target.value);
+        }}
+      />
+      <button onClick={navigateToList}>Submit</button>
     </div>
   );
 };

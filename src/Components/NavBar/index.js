@@ -7,7 +7,9 @@ export const NavBar = () => {
       <div>
         <ul className="navbar-links">
           <li className="navbar-item">FAQ</li>
-          <li className="navbar-item">MAIN MENU</li>
+          <li className="navbar-item">
+            <a href="http://localhost:3000/">MAIN MENU</a>
+          </li>
         </ul>
       </div>
     </div>

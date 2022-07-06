@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSingleGame } from "../../store/game/actions";
+import { getSingleGame, startNewGame } from "../../store/game/actions";
 import { selectSingleGame } from "../../store/game/selectors";
 import { socket } from "../../config/socket";
 
@@ -11,10 +11,26 @@ export const MainGame = () => {
   const params = useParams();
   const { id } = params;
 
+  /*
+  game = {
+    players: {
+      '12': {},
+      '1': {},
+      '8': {}
+    }
+  }
+
+
+  */
+
   useEffect(() => {
     dispatch(getSingleGame(id));
     socket.on("gamestate", (data) => {
       console.log("we got it!", data);
+      // Once we have a logged in user or a userID reference we can
+      // pull this specific players state from the gameState.
+      // and set to local state.
+      // data.players[userId]
     });
   }, [dispatch, id]);
 
@@ -24,6 +40,7 @@ export const MainGame = () => {
   const { players } = currentGame;
 
   const startGame = () => {
+    dispatch(startNewGame(id));
     // post request to start game => triggers backend to create game inital state and send to room.
   };
 
