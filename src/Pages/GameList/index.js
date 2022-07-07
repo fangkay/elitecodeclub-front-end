@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LobbyGameCard } from "../../Components/LobbyGameCard";
+import { apiUrl } from "../../config/constants";
 import { createGame, getAllGames } from "../../store/game/actions";
 import { selectAllGames } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";
@@ -11,16 +12,18 @@ export const GameList = () => {
   const games = useSelector(selectAllGames);
   const username = useSelector(selectUsername);
   const [room, setRoom] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllGames);
-  }, [dispatch]);
+  }, [dispatch, room]);
 
   if (!games) return <h3>Loading...</h3>;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(createGame(room));
+    setRoom("");
   };
 
   return (

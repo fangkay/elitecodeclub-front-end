@@ -2,7 +2,7 @@ import axios from "axios";
 import { apiUrl } from "../../config/constants";
 import { createNewGame, fetchGames, fetchSingleGame } from "./slice";
 
-export const createGame = (name, navigate) => {
+export const createGame = (name) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.post(`${apiUrl}/game`, {
