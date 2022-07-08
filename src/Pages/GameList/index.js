@@ -29,18 +29,23 @@ export const GameList = () => {
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="room">Room ID</label>
-          <input
-            name="room"
-            type="number"
-            placeholder="Enter Room ID"
-            onChange={(event) => {
-              setRoom(event.target.value);
-            }}
-          />
-
-          <button type="submit">Create game</button>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-item">
+            <label htmlFor="room">Room ID</label>
+          </div>
+          <div className="form-item">
+            <input
+              name="room"
+              type="number"
+              placeholder="Enter Room ID"
+              onChange={(event) => {
+                setRoom(event.target.value);
+              }}
+            />
+            <button className="form-button" type="submit">
+              Create game
+            </button>
+          </div>
         </form>
       </div>
       <div>

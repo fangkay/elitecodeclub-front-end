@@ -49,3 +49,17 @@ export const startNewGame = (id) => {
     }
   };
 };
+
+export const passTurn = (turns, gameId) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.patch(`${apiUrl}/game/pass`, {
+        turns,
+        gameId,
+      });
+      console.log("done!", response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
