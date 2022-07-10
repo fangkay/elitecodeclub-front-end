@@ -1,6 +1,6 @@
 import axios from "axios";
 import { apiUrl } from "../../config/constants";
-import { createNewGame, fetchGames } from "./slice";
+import { createNewGame, fetchGames, fetchSingleGame } from "./slice";
 
 export const createGame = (name) => {
   return async (dispatch, getState) => {
@@ -23,4 +23,43 @@ export const getAllGames = async (dispatch, getState) => {
   } catch (e) {
     console.log(e.message);
   }
+};
+
+export const getSingleGame = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get(`${apiUrl}/game/${id}`);
+      dispatch(fetchSingleGame(response.data));
+      console.log(response.data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const startNewGame = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.post(`${apiUrl}/game/start`, {
+        gameId: id,
+      });
+      return response.data;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};
+
+export const passTurn = (turns, gameId) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.patch(`${apiUrl}/game/pass`, {
+        turns,
+        gameId,
+      });
+      console.log("done!", response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 };

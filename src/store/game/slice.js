@@ -11,11 +11,13 @@ export const gameSlice = createSlice({
     },
     createNewGame: (state, action) => {
       state.game = [...state.game, action.payload];
-      console.log(action.payload);
+    },
+    fetchSingleGame: (state, action) => {
+      state.currentGame = action.payload;
     },
   },
 });
 
-export const { createNewGame, fetchGames } = gameSlice.actions;
+export const { createNewGame, fetchGames, fetchSingleGame } = gameSlice.actions;
 
 export default gameSlice.reducer;
