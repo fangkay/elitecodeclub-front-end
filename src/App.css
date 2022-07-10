@@ -9,6 +9,8 @@
 body {
   font-family: "Outfit", sans-serif;
   color: #312f2f;
+  background-image: url("Background-pattern.png");
+  background-color: #d4dfc7;
 }
 
 /* Spacing */
@@ -18,11 +20,18 @@ body {
 
 .navbar {
   align-items: center;
-  border: 1px solid black;
   display: flex;
   justify-content: space-between;
   padding: 1rem;
   margin-bottom: 2rem;
+}
+
+.lobby-game {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  padding: 2rem;
+  margin: 1rem auto;
 }
 
 .navbar-links {
@@ -31,7 +40,7 @@ body {
 }
 
 .navbar-item {
-  margin-left: 2rem;
+  margin-left: 2.5rem;
   list-style: none;
 }
 
@@ -90,25 +99,109 @@ body {
 }
 
 /* Styling */
+button {
+  font-family: "Outfit", sans-serif;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px 1.5px #fff inset;
+  color: #3e885b;
+  padding: 0.5rem 1rem;
+  height: auto;
+  margin: 0 0.5rem;
+}
+
+button:hover {
+  background-color: #3e885b;
+  color: #fff;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 0px 1.5px #fff inset;
+}
+
+.action-buttons button {
+  background-color: #3e885b;
+  color: #fff;
+  box-shadow: 0px 0px 0px 0px inset;
+}
+
+.action-buttons button:hover {
+  background-color: #fff;
+  color: #3e885b;
+}
+
 .card {
-  border: 1px solid black;
+  border: 2px solid #3e885b;
   border-radius: 0.25rem;
-  background-color: #f5f5f5;
+  background-color: #fff;
   box-shadow: -2px 2px 4px #dcdcdc;
+  font-weight: bold;
+  color: #3e885b;
   position: relative;
 }
 
 .card:hover,
 .card:active {
-  background-color: black;
+  background-color: #3e885b;
   color: white;
   top: -10px;
 }
 
+.form {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.form-input {
+  height: 1.2rem;
+  width: 12rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border-color: #3e885b;
+  background-color: #fff;
+}
+
+.lobby-game {
+  background-color: #3e885b;
+  box-shadow: -2px 2px 4px #dcdcdc;
+  border: 1px solid #3e885b;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.navbar {
+  background-color: #3e885b;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.navbar-item a {
+  color: #d4dfc7;
+  text-decoration: none;
+}
+
+::placeholder {
+  font-family: "Outfit", sans-serif;
+  color: #d4dfc7;
+}
+
 .point-card {
   background-color: #f5f5f5;
-  border: 1px solid black;
+  border: 2px solid #3e885b;
   border-radius: 0.25rem;
+  color: #3e885b;
   text-align: center;
   font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Larger screen */
+@media screen and (min-width: 800px) {
+  .lobby-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

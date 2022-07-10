@@ -33,23 +33,22 @@ export const GameList = () => {
           <div className="form-item">
             <label htmlFor="room">Room ID</label>
           </div>
-          <div className="form-item">
-            <input
-              name="room"
-              type="number"
-              placeholder="Enter Room ID"
-              onChange={(event) => {
-                setRoom(event.target.value);
-              }}
-            />
-            <button className="form-button" type="submit">
-              Create game
-            </button>
-          </div>
+          <input
+            className="form-item form-input"
+            name="room"
+            type="number"
+            placeholder="Enter Room ID"
+            onChange={(event) => {
+              setRoom(event.target.value);
+            }}
+          />
+          <button className="form-button" type="submit">
+            Create game
+          </button>
         </form>
       </div>
-      <div>
-        <h1>Current games</h1>
+      <h1>Current games</h1>
+      <div className="lobby-list">
         {!games
           ? "Loading"
           : games.map((game) => {

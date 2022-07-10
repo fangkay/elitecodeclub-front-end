@@ -77,27 +77,17 @@ export const MainGame = () => {
   // Checks if player can select money or not
   const selectMoney = (card) => {
     setCurrentBid([...currentBid, card]);
-    playerTurn === myPlayer.username
-      ? console.log("money selected")
-      : console.log("money can't be selected");
+    // playerTurn === myPlayer.username
+    //   ? console.log("money selected")
+    //   : console.log("money can't be selected");
   };
 
-  // Sets hasPassed to true for the player
+  // Sets passing turn to the next player
   const passBid = () => {
-    // setHasPassed(!hasPassed);
     dispatch(passTurn(fullGame.turn, id));
   };
 
-  const checkTurn = () => {};
-
   console.log("what is updated fullGame", fullGame);
-
-  // Getting all the players turn state
-
-  // const getTurns = fullGame.turn.map((t) => {
-  //   return console.log("what is t?", t);
-  // });
-  // console.log("what is this players turn state?", fullGame.turn);
 
   const currentPlayerPassed = fullGame.turn.find(
     (t) => t.username === myPlayer.username
@@ -132,7 +122,7 @@ export const MainGame = () => {
         ) : (
           "Not your turn"
         )}
-        <button>View scores</button>
+        <button className="action-buttons">View scores</button>
         <div>
           <p>Username: {myPlayer.username}</p>
           <p>Your current bid</p>
@@ -141,7 +131,11 @@ export const MainGame = () => {
         <div className="player-money">
           {onlyMoney.map((m, index) => {
             return (
-              <div onClick={() => selectMoney(m)} className="card" key={index}>
+              <div
+                onClick={() => selectMoney(m)}
+                className={"card"}
+                key={index}
+              >
                 {m}
               </div>
             );

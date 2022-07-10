@@ -19,25 +19,23 @@ export const LobbyPage = () => {
         <div className="form-item">
           <label htmlFor="username">Your username</label>
         </div>
-        <div className="form-item">
-          <input
-            className="form-input"
-            name="username"
-            type="text"
-            value={username}
-            placeholder="Enter username"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <button
-            className="form-button"
-            type="submit"
-            onClick={navigateToList}
-          >
-            Submit
-          </button>
-        </div>
+        <input
+          className="form-item form-input"
+          name="username"
+          type="text"
+          value={username}
+          placeholder="Enter username"
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
+        <button
+          className="form-item form-button"
+          type="submit"
+          onClick={navigateToList}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import logo from "../../Logo.png";
+import logo from "../../Logo-white.png";
 
 export const NavBar = () => {
   return (
