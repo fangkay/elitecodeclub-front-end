@@ -219,6 +219,10 @@ button:hover {
   font-weight: bold;
 }
 
+.player-info {
+  margin-bottom: 2rem;
+}
+
 /* Larger screen */
 @media screen and (min-width: 800px) {
   .lobby-list {

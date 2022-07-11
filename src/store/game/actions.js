@@ -63,3 +63,15 @@ export const passTurn = (turns, gameId) => {
     }
   };
 };
+
+export const submitBid = (playerBid) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.patch(`${apiUrl}/game/bid`, {
+        playerBid,
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+};

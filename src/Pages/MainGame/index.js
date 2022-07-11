@@ -5,6 +5,7 @@ import {
   getSingleGame,
   startNewGame,
   passTurn,
+  submitBid,
 } from "../../store/game/actions";
 import { selectSingleGame } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";
@@ -29,7 +30,7 @@ export const MainGame = () => {
 
     // here we get the actual gameState after starting
     socket.on("gamestate", (data) => {
-      console.log("we got it!", data);
+      console.log("this is the gamestate data", data);
       setFullGame(data);
       setGameStarted(true);
     });
@@ -76,12 +77,13 @@ export const MainGame = () => {
 
   // Checks if player can select money or not
   const selectMoney = (card) => {
-    if (playerTurn === myPlayer.username) {
-      setCurrentBid([...currentBid, card]);
-      console.log("money selected");
-    } else {
-      console.log("money can't be selected");
-    }
+    if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
+    const totalBid = currentBid.reduce(
+      (val1, val2) => parseInt(val1) + parseInt(val2)
+    );
+    // dispatch(submitBid(setCurrentBid, fullGame.turn, id));
+
+    setHighestBid(totalBid);
   };
 
   // Sets passing turn to the next player
@@ -123,10 +125,10 @@ export const MainGame = () => {
             <h3>It's your turn</h3>
           </div>
         ) : (
-          "Not your turn"
+          <h3>{playerTurn}'s turn</h3>
         )}
         <button>View scores</button>
-        <div>
+        <div className="player-info">
           <p>Username: {myPlayer.username}</p>
           <p>Your current bid</p>
           <h3>{highestBid}</h3>

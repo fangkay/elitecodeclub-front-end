@@ -37,6 +37,7 @@ export const GameList = () => {
             className="form-item form-input"
             name="room"
             type="number"
+            value={room}
             placeholder="Enter Room ID"
             onChange={(event) => {
               setRoom(event.target.value);
