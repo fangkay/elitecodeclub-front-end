@@ -15,8 +15,9 @@ export const MainGame = () => {
   const dispatch = useDispatch();
   const [fullGame, setFullGame] = useState();
   const [gameStarted, setGameStarted] = useState(false);
+  const [highestBid, setHighestBid] = useState(0);
   const [currentBid, setCurrentBid] = useState([]);
-  // const [hasPassed, setHasPassed] = useState(false);
+  const [hasPassed, setHasPassed] = useState(false);
   const mainPlayerName = useSelector(selectUsername);
   const gamePlayers = useSelector(selectSingleGame);
   const params = useParams();
@@ -72,19 +73,21 @@ export const MainGame = () => {
   });
 
   const playerTurn = fullGame.turn[0].username;
-  console.log("what is myPlayer username", myPlayer.username);
 
   // Checks if player can select money or not
   const selectMoney = (card) => {
-    setCurrentBid([...currentBid, card]);
-    // playerTurn === myPlayer.username
-    //   ? console.log("money selected")
-    //   : console.log("money can't be selected");
+    if (playerTurn === myPlayer.username) {
+      setCurrentBid([...currentBid, card]);
+      console.log("money selected");
+    } else {
+      console.log("money can't be selected");
+    }
   };
 
   // Sets passing turn to the next player
   const passBid = () => {
     dispatch(passTurn(fullGame.turn, id));
+    setHasPassed(!hasPassed);
   };
 
   console.log("what is updated fullGame", fullGame);
@@ -100,7 +103,7 @@ export const MainGame = () => {
       <div>
         <div className="highest-bid">
           <p>Current highest bid</p>
-          <h2>20000</h2>
+          <h2>0</h2>
         </div>
         <div className="point-card">7</div>
         <div className="other-player-bids">
@@ -117,23 +120,27 @@ export const MainGame = () => {
           <div className="action-buttons">
             <button onClick={passBid}>Pass</button>
             <button>Confirm bid</button>
-            <h2>It's your turn</h2>
+            <h3>It's your turn</h3>
           </div>
         ) : (
           "Not your turn"
         )}
-        <button className="action-buttons">View scores</button>
+        <button>View scores</button>
         <div>
           <p>Username: {myPlayer.username}</p>
           <p>Your current bid</p>
-          <h3>20000</h3>
+          <h3>{highestBid}</h3>
         </div>
         <div className="player-money">
           {onlyMoney.map((m, index) => {
             return (
               <div
                 onClick={() => selectMoney(m)}
-                className={"card"}
+                className={
+                  !hasPassed && playerTurn === myPlayer.username
+                    ? "card"
+                    : "card-disabled"
+                }
                 key={index}
               >
                 {m}

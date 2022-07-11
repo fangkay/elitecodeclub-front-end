@@ -61,6 +61,16 @@ body {
   transform: rotate(-90deg);
 }
 
+.card-disabled {
+  display: flex;
+  padding: 1.5rem;
+  width: 2.75rem;
+  height: 1rem;
+  margin: 0.5rem -1.25rem;
+  text-align: center;
+  transform: rotate(-90deg);
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -141,6 +151,17 @@ button:hover {
   font-weight: bold;
   color: #3e885b;
   position: relative;
+}
+
+.card-disabled {
+  border: 2px solid #3e885b;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  box-shadow: -2px 2px 4px #dcdcdc;
+  font-weight: bold;
+  color: #3e885b;
+  position: relative;
+  pointer-events: none;
 }
 
 .card:hover,
