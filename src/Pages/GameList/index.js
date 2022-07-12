@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LobbyGameCard } from "../../Components/LobbyGameCard";
-import { apiUrl } from "../../config/constants";
 import { createGame, getAllGames } from "../../store/game/actions";
 import { selectAllGames } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";

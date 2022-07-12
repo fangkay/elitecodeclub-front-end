@@ -120,9 +120,10 @@ button {
   border-radius: 4px;
   box-shadow: 0px 0px 0px 1.5px #fff inset;
   color: #3e885b;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
   height: auto;
   margin: 0 0.5rem;
+  width: 8rem;
 }
 
 button:hover {

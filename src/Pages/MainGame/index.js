@@ -46,14 +46,14 @@ export const MainGame = () => {
       setAllBids(bids);
       setTurns(turns);
       setAuctionCard(currentCard);
+      setCurrentBid([]);
     });
 
     // fires at the end of every players turn => updates currentBids and turns (to see who passed and who's turn it is now)
     socket.on("new-bid", (updatedBidData) => {
-      console.log("what is the new bid data?", updatedBidData);
+      console.log("what is updatedBidData?", updatedBidData);
       // update allBids
       setAllBids(updatedBidData.bids);
-      console.log("what is updatedBidData?", updatedBidData.bids);
 
       // update turns (local state)
       setTurns(updatedBidData.turns);
@@ -84,10 +84,10 @@ export const MainGame = () => {
   const myPlayer = players[mainPlayerName];
   const playerNames = Object.keys(players);
 
-  // Getting all money card from the main player
+  // Getting all money card from the main player ---- TODO: Add a check where each card is false
   const { money } = myPlayer;
-  const allMoney = Object.keys(money);
-  const onlyMoney = allMoney.slice(0, 11);
+  // const allMoney = Object.keys(money);
+  // const onlyMoney = allMoney.slice(0, 11);
 
   // Getting all the scores of all players
   const getScores = playerNames.map((p) => {
@@ -96,8 +96,7 @@ export const MainGame = () => {
     return Object.keys(score);
   });
 
-  const submitPlayerBid = (passed) => {
-    // bid is in localstate === currentBid;
+  const submitPlayerBid = (passed, pId) => {
     const bidState = {
       bids: {
         ...allBids,
@@ -110,17 +109,17 @@ export const MainGame = () => {
         passed,
       },
       gameId: fullGame.gameId,
+      playerId: pId,
     };
-
-    console.log("what is bidState before sending?", bidState);
     dispatch(submitBid(bidState));
   };
 
   const playerTurn = turns[0].username;
-  console.log("what is playerTurn?", playerTurn);
 
   // Adds selected cards into the currentBid array [25000,20000]
   const selectMoney = (card) => {
+    if (currentBid.includes(card)) return;
+
     if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
   };
 
@@ -144,7 +143,13 @@ export const MainGame = () => {
             const player = players[name];
             return (
               <div className="other-player-bid" key={player.id}>
-                {player.username} bids <h3>0</h3>
+                {player.username} bids{" "}
+                <h3>
+                  {allBids[player.username].reduce(
+                    (acc, m) => acc + parseInt(m),
+                    0
+                  )}
+                </h3>
               </div>
             );
           })}
@@ -152,10 +157,15 @@ export const MainGame = () => {
         {playerTurn === myPlayer.username && currentPlayerPassed === false ? (
           <div className="action-buttons">
             <h2>It's your turn</h2>
-            <button id="pass" onClick={() => submitPlayerBid(true)}>
+            <button
+              id="pass"
+              onClick={() => submitPlayerBid(true, myPlayer.id)}
+            >
               Pass
             </button>
-            <button onClick={() => submitPlayerBid(false)}>Confirm bid</button>
+            <button onClick={() => submitPlayerBid(false, myPlayer.id)}>
+              Confirm bid
+            </button>
           </div>
         ) : (
           <h3>{playerTurn}'s turn</h3>
@@ -167,12 +177,21 @@ export const MainGame = () => {
           <h3>{currentBid}</h3>
         </div>
         <div className="player-money">
-          {onlyMoney.map((m, index) => {
+          {money.map((m, index) => {
             return (
               <div
                 onClick={() => selectMoney(m)}
                 className={
                   playerTurn === myPlayer.username ? "card" : "card-disabled"
+                }
+                style={
+                  currentBid.includes(m)
+                    ? {
+                        backgroundColor: "#3e885b",
+                        color: "white",
+                        top: "-10px",
+                      }
+                    : {}
                 }
                 key={index}
               >

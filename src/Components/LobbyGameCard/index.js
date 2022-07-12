@@ -14,7 +14,6 @@ export const LobbyGameCard = (props) => {
     const room = props.id;
     socket.emit("join_room", props.id);
     navigate(`/game/${room}`, { replace: true });
-    console.log(room);
   };
 
   return (
