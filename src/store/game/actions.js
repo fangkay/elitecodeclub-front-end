@@ -50,26 +50,27 @@ export const startNewGame = (id) => {
   };
 };
 
-export const passTurn = (turns, gameId) => {
-  return async (dispatch, getState) => {
-    try {
-      const response = await axios.patch(`${apiUrl}/game/pass`, {
-        turns,
-        gameId,
-      });
-      console.log("done!", response);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-};
+// export const passTurn = (turns, gameId) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       const response = await axios.patch(`${apiUrl}/game/pass`, {
+//         turns,
+//         gameId,
+//       });
+//       console.log("done!", response);
+//     } catch (e) {
+//       console.log(e.message);
+//     }
+//   };
+// };
 
-export const submitBid = (playerBid) => {
+export const submitBid = (bidState) => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.patch(`${apiUrl}/game/bid`, {
-        playerBid,
+      const response = await axios.patch(`${apiUrl}/game/bid2`, {
+        bidState,
       });
+      console.log("what is response", response);
     } catch (e) {
       console.log(e.message);
     }
