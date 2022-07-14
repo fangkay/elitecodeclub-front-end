@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { storeUsername } from "../../store/user/actions";
+import logo from "../../Logo-green.svg";
 
 export const LobbyPage = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ export const LobbyPage = () => {
   };
 
   return (
-    <div>
+    <div className="lobby-content">
+      <img src={logo} alt="bidbybid-logo" className="lobby-logo"></img>
       <form className="form">
         <div className="form-item">
           <label htmlFor="username">Your username</label>

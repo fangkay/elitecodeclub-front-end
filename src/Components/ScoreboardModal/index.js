@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 
 export const ScoreboardModal = (props) => {
   const [modalIsOpen, setIsOpen] = useState(false);
-
+  const [arrayOfPlayers, setArrayOfPlayers] = useState([]);
   function openModal() {
     setIsOpen(true);
   }
@@ -15,6 +15,14 @@ export const ScoreboardModal = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
+
+  const players = props.players;
+  console.log("what is players?", players);
+
+  useEffect(() => {
+    setArrayOfPlayers(Object.keys(players));
+  }, [players]);
+
   return (
     <div>
       <button onClick={openModal}>View scores</button>
@@ -23,19 +31,35 @@ export const ScoreboardModal = (props) => {
         ariaHideApp={false}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
-        contentLabel="Example Modal"
       >
-        <h2>Scoreboard</h2>
-        <div>
-          {props.scores.map((s, index) => {
-            return (
-              <div key={index}>
-                <div>{s}</div>
-              </div>
-            );
-          })}
+        <div className="scoreboard-content">
+          <h2>Scoreboard</h2>
+          <div className="scoreboard-headers">
+            <h4>Players</h4>
+            <h4>Cards</h4>
+          </div>
+          <div className="scoreboard-players">
+            {arrayOfPlayers.map((player) => {
+              return (
+                <div className="scoreboard-player">
+                  {player}
+                  <div className="score-cards">
+                    {players[player].score.map((card) => {
+                      return (
+                        <div className="card score-card" key={card.id}>
+                          {card}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button id="scoreboard-close-button" onClick={closeModal}>
+            Close
+          </button>
         </div>
-        <button onClick={closeModal}>Close</button>
       </Modal>
     </div>
   );

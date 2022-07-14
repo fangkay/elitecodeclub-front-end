@@ -71,7 +71,11 @@ export const MainGame = () => {
   if (gamePlayers && !gameStarted) {
     return (
       <div>
-        <LobbyList players={gamePlayers.players} id={gamePlayers.id} />
+        <LobbyList
+          players={gamePlayers.players}
+          id={gamePlayers.id}
+          gameName={gamePlayers.name}
+        />
         <button onClick={startGame}>Start game</button>
       </div>
     );
@@ -86,15 +90,14 @@ export const MainGame = () => {
 
   // Getting all money card from the main player ---- TODO: Add a check where each card is false
   const { money } = myPlayer;
-  // const allMoney = Object.keys(money);
-  // const onlyMoney = allMoney.slice(0, 11);
+  console.log("what is money?", money);
 
   // Getting all the scores of all players
-  const getScores = playerNames.map((p) => {
-    const player = players[p];
-    const score = player.score;
-    return Object.keys(score);
-  });
+  // const getScores = playerNames.map((p) => {
+  //   const player = players[p];
+  //   const score = player.score;
+  //   return Object.keys(score);
+  // });
 
   const submitPlayerBid = (passed, pId) => {
     const bidState = {
@@ -119,8 +122,25 @@ export const MainGame = () => {
   // Adds selected cards into the currentBid array [25000,20000]
   const selectMoney = (card) => {
     if (currentBid.includes(card)) return;
-
     if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
+  };
+
+  const specialCards = () => {
+    const isMultiplyCard = auctionCard.includes("multiply");
+    const isDivideCard = auctionCard.includes("divide");
+    const isMinusCard = auctionCard.includes("minusFive");
+    const isDiscardCard = auctionCard.includes("discardPoints");
+    if (isMultiplyCard) {
+      return "x2";
+    } else if (isDivideCard) {
+      return "½";
+    } else if (isMinusCard) {
+      return "-5";
+    } else if (isDiscardCard) {
+      return "Discard";
+    } else {
+      return auctionCard;
+    }
   };
 
   // Check if current player has passed
@@ -128,35 +148,41 @@ export const MainGame = () => {
     (t) => t.username === myPlayer.username
   ).passed;
 
-  // Convert bid into an integer to display
+  const totalPlayerBid = currentBid.reduce(
+    (partialSum, a) => parseInt(partialSum) + parseInt(a),
+    0
+  );
 
   if (gameStarted)
     return (
       <div>
         <div className="highest-bid">
           <p>Highest bid</p>
-          <h2>Display the highest bid</h2>
+          <h3>Display the highest bid</h3>
         </div>
-        <div className="point-card">{auctionCard}</div>
-        <div className="other-player-bids">
-          {playerNames.map((name) => {
-            const player = players[name];
-            return (
-              <div className="other-player-bid" key={player.id}>
-                {player.username} bids{" "}
-                <h3>
-                  {allBids[player.username].reduce(
-                    (acc, m) => acc + parseInt(m),
-                    0
-                  )}
-                </h3>
-              </div>
-            );
-          })}
+        <div className="main-game">
+          <div className="point-card">{specialCards()}</div>
+          <div className="other-player-bids">
+            {playerNames.map((name) => {
+              const player = players[name];
+              return (
+                <div className="other-player-bid" key={player.id}>
+                  {player.username} bids{" "}
+                  <h3>
+                    {allBids[player.username].reduce(
+                      (acc, m) => acc + parseInt(m),
+                      0
+                    )}
+                  </h3>
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <ScoreboardModal players={players} />
         {playerTurn === myPlayer.username && currentPlayerPassed === false ? (
           <div className="action-buttons">
-            <h2>It's your turn</h2>
+            <h3>It's your turn</h3>
             <button
               id="pass"
               onClick={() => submitPlayerBid(true, myPlayer.id)}
@@ -170,11 +196,17 @@ export const MainGame = () => {
         ) : (
           <h3>{playerTurn}'s turn</h3>
         )}
-        <ScoreboardModal scores={getScores} players={players} />
+        {/* <p>Username: {myPlayer.username}</p> */}
         <div className="player-info">
-          <p>Username: {myPlayer.username}</p>
-          <p>Your current bid</p>
-          <h3>{currentBid}</h3>
+          <div className="player-info-bid">
+            <p>Your bid</p>
+            <h3>{totalPlayerBid}</h3>
+          </div>
+          <div className="player-info-cards">
+            {currentBid.map((c) => {
+              return <div className="card player-info-card">{c}</div>;
+            })}
+          </div>
         </div>
         <div className="player-money">
           {money.map((m, index) => {

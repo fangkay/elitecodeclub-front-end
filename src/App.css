@@ -29,9 +29,18 @@ body {
 .lobby-game {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 15rem;
   padding: 2rem;
   margin: 1rem auto;
+}
+
+.lobby-game h2 {
+  margin: 0;
+}
+
+.lobby-details {
+  margin-top: 8rem;
 }
 
 .navbar-links {
@@ -71,10 +80,17 @@ body {
   transform: rotate(-90deg);
 }
 
+.score-card {
+  transform: none;
+  width: 0.2rem;
+  height: 1rem;
+  margin: 0;
+  padding: 1rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -86,18 +102,30 @@ body {
   margin-bottom: 2rem;
 }
 
-.point-card {
+.lobby-content {
   display: flex;
-  margin: 0 auto;
-  padding: 1.75rem;
-  height: 3rem;
-  width: 1rem;
+  flex-direction: column;
+  align-items: center;
+  margin: 8rem 0;
+}
+
+.lobby-logo {
+  width: 8rem;
+  margin-bottom: 4rem;
+}
+
+.main-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
 }
 
 .other-player-bids {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-left: 1rem;
 }
 
 .other-player-bid {
@@ -106,6 +134,59 @@ body {
 
 .other-player-bid h3 {
   margin: 0.2rem;
+}
+
+.point-card {
+  display: flex;
+  padding: 1.75rem;
+  height: 3rem;
+  width: 1rem;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-info-bid {
+  text-align: left;
+  margin-right: 2rem;
+}
+
+.player-info-cards {
+  display: flex;
+  margin-left: 2rem;
+}
+
+.point-card {
+  margin-right: 1rem;
+}
+
+.scoreboard-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreboard-headers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scoreboard-players {
+  margin-bottom: 2rem;
+}
+
+.scoreboard-player {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#scoreboard-close-button {
+  background-color: #3e885b;
+  color: #fff;
+  margin: 0 auto;
 }
 
 /* Styling */
@@ -174,6 +255,7 @@ button:hover {
   background-color: #3e885b;
   color: white;
   top: -10px;
+  border-color: #fff;
 }
 
 .form {

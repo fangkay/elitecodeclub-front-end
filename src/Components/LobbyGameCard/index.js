@@ -18,7 +18,7 @@ export const LobbyGameCard = (props) => {
 
   return (
     <div className="lobby-game" key={props.id}>
-      <h4>Game name</h4>
+      <p>Game name</p>
       <h2>{props.name}</h2>
       <p>Players: {props.players} / 5</p>
       {props.players >= 5 ? (
