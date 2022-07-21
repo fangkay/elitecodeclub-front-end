@@ -22,6 +22,24 @@ export const ScoreboardModal = (props) => {
     setArrayOfPlayers(Object.keys(players));
   }, [players]);
 
+  // const specialCards = (card) => {
+  //   const isMultiplyCard = card.includes("multiply");
+  //   const isDivideCard = card.includes("divide");
+  //   const isMinusCard = card.includes("minusFive");
+  //   const isDiscardCard = card.includes("discardPoints");
+  //   if (isMultiplyCard) {
+  //     return "x2";
+  //   } else if (isDivideCard) {
+  //     return "½";
+  //   } else if (isMinusCard) {
+  //     return "-5";
+  //   } else if (isDiscardCard) {
+  //     return "Discard";
+  //   } else {
+  //     return card;
+  //   }
+  // };
+
   return (
     <div>
       <button onClick={openModal}>View scores</button>

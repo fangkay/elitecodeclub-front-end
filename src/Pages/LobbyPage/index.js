@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { storeUsername } from "../../store/user/actions";
 import logo from "../../Logo-green.svg";
+import headerimg from "../../header-image.png";
 
 export const LobbyPage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export const LobbyPage = () => {
   return (
     <div className="lobby-content">
       <div className="lobby-header">
+        <img src={headerimg} alt="money jar" className="money-jar"></img>
         <img src={logo} alt="bidbybid-logo" className="lobby-logo"></img>
         <h3>
           A card game where players bid on cards to earn points. But don't spend

@@ -100,13 +100,6 @@ export const MainGame = () => {
   // Getting all money card from the main player ---- TODO: Add a check where each card is false
   const { money } = myPlayer;
 
-  // Getting all the scores of all players
-  // const getScores = playerNames.map((p) => {
-  //   const player = players[p];
-  //   const score = player.score;
-  //   return Object.keys(score);
-  // });
-
   const submitPlayerBid = (passed, pId) => {
     const bidState = {
       bids: {
@@ -124,8 +117,6 @@ export const MainGame = () => {
     };
     dispatch(submitBid(bidState));
   };
-
-  // console.log("what is fullGame?", fullGame);
 
   const playerTurn = turns[0].username;
 
@@ -164,12 +155,29 @@ export const MainGame = () => {
     0
   );
 
+  const getAllPlayerBids = playerNames.map((name) => {
+    const player = players[name];
+    return allBids[player.username].reduce((acc, m) => acc + parseInt(m), 0);
+  });
+
+  console.log("what is getPlayerNames?", getAllPlayerBids);
+
+  // const max = arr.reduce(function(a, b) {
+  //   return Math.max(a, b);
+
+  const highestBid = getAllPlayerBids.reduce((a, b) => {
+    return Math.max(a, b);
+  });
+  console.log("what is the highestBid", highestBid);
+
+  console.log("what is allBids?", allBids);
+
   if (gameStarted)
     return (
       <div>
         <div className="highest-bid">
           <p>Highest bid</p>
-          <h3>Display the highest bid</h3>
+          <h2>{highestBid}</h2>
         </div>
         <div className="main-game">
           <div className="point-card">{specialCards()}</div>
@@ -200,7 +208,10 @@ export const MainGame = () => {
             >
               Pass
             </button>
-            <button onClick={() => submitPlayerBid(false, myPlayer.id)}>
+            <button
+              id={totalPlayerBid <= highestBid ? "button-disabled" : ""}
+              onClick={() => submitPlayerBid(false, myPlayer.id)}
+            >
               Confirm bid
             </button>
           </div>
@@ -245,5 +256,4 @@ export const MainGame = () => {
         </div>
       </div>
     );
-  // if (gameFinished) return <h1>This game is finished</h1>;
 };

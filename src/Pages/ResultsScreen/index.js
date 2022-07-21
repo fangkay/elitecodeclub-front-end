@@ -11,21 +11,28 @@ export const ResultsScreen = () => {
 
   return (
     <div className="lobby-content">
-      <div className="lobby-header">
+      <div className="lobby-header results">
         <img src={logo} alt="bidbybid-logo" className="lobby-logo"></img>
 
         {username === results.winner ? (
           <h1>You won!</h1>
         ) : (
-          <h1>Player {results.winner} won!</h1>
+          <h2>Player {results.winner} won!</h2>
         )}
-
-        {results.playerScores.map((r) => (
-          <div>
-            <h3>{r.name}</h3>
-            <h4>{r.endScore}</h4>
+        <div>
+          <div className="result-headers">
+            <h4>Player</h4>
+            <h4>Money</h4>
+            <h4>Score</h4>
           </div>
-        ))}
+          {results.playerScores.map((r) => (
+            <div className="player-result">
+              <h3>{r.name}</h3>
+              <h4>{r.totalMoney}</h4>
+              <h4>{r.endScore}</h4>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

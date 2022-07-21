@@ -22,11 +22,15 @@ export const GameList = () => {
 
   if (!games) return <h3>Loading...</h3>;
 
+  // console.log("what is games", games);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(createGame(room));
     setRoom("");
   };
+
+  // const sortedGames = games.sort((g1, g2) => g1.createdAt - g2.createdAt);
 
   return (
     <div>

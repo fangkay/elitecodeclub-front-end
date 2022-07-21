@@ -8,13 +8,6 @@ export const LobbyList = (props) => {
   const getPlayers = getGame.players;
   const [allPlayers, setAllPlayers] = useState(getPlayers);
 
-  // useEffect(() => {
-  //   socket.on("new-player", (newPlayer) => {
-  //     console.log("got message from new-player emit");
-  //     setAllPlayers([...allPlayers, newPlayer]);
-  //   });
-  // }, [allPlayers, getPlayers]);
-
   console.log("getPlayers", allPlayers);
   useEffect(() => {
     socket.removeAllListeners("new-player");

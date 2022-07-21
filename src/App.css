@@ -47,6 +47,18 @@ body {
   text-align: left;
 }
 
+#button-disabled {
+  background-color: #f5f5f5;
+  color: #312f2f;
+  pointer-events: none;
+}
+
+.money-jar {
+  width: 300px;
+  height: auto;
+  margin: 0 auto 2rem auto;
+}
+
 .navbar {
   align-items: center;
   display: flex;
@@ -69,7 +81,9 @@ body {
 }
 
 .lobby-header {
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
 }
 
 .lobby-details {
@@ -78,7 +92,7 @@ body {
 
 .lobby-list {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   flex-wrap: nowrap;
 }
 
@@ -135,6 +149,11 @@ body {
   transform: rotate(-90deg);
 }
 
+.results {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
 .score-cards {
   display: flex;
 }
@@ -165,15 +184,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 8rem 0;
+  margin: 4rem 0;
 }
 
 .lobby-header {
   max-width: 600px;
-  margin: 0 2rem 2rem 2rem;
+  margin: 0 2rem;
+  width: 70%;
 }
 
 .lobby-logo {
+  margin: 0 auto;
   width: 8rem;
 }
 
@@ -222,8 +243,18 @@ body {
   margin-left: 2rem;
 }
 
+.player-result {
+  display: flex;
+  justify-content: space-between;
+}
+
 .point-card {
   margin-right: 1rem;
+}
+
+.result-headers {
+  display: flex;
+  justify-content: space-between;
 }
 
 .scoreboard-content {
@@ -259,15 +290,19 @@ button {
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background-color: #fff;
+  background-color: #3e885b;
   border: none;
   border-radius: 4px;
-  box-shadow: 0px 0px 0px 1.5px #fff inset;
-  color: #3e885b;
+  color: #fff;
   padding: 0.7rem 1rem;
   height: auto;
   margin: 0 0.5rem;
   width: 8rem;
+}
+
+.lobby-button {
+  background-color: #fff;
+  color: #3e885b;
 }
 
 button:hover {
@@ -383,8 +418,8 @@ button:hover {
 @media screen and (min-width: 600px) {
   .lobby-list {
     display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap-reverse;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .rules-container {

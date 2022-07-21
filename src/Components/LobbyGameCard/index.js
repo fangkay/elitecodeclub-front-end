@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-// import io from "socket.io-client";
-// const socket = io.connect("http://localhost:3001");
 import { socket } from "../../config/socket";
 import { useDispatch } from "react-redux";
 import { createNewPlayer } from "../../store/user/actions";
@@ -24,7 +22,9 @@ export const LobbyGameCard = (props) => {
       {props.players >= 5 ? (
         "Game is full"
       ) : (
-        <button onClick={joinRoom}>Join game</button>
+        <button className="lobby-button" onClick={joinRoom}>
+          Join game
+        </button>
       )}
     </div>
   );
