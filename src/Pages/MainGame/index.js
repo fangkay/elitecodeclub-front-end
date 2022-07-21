@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getSingleGame,
   startNewGame,
-  passTurn,
+  submitBid,
 } from "../../store/game/actions";
+import { storeResults } from "../../store/game/slice";
 import { selectSingleGame } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";
 import { socket } from "../../config/socket";
 import { LobbyList } from "../../Components/LobbyList";
+import { ScoreboardModal } from "../../Components/ScoreboardModal";
 
 export const MainGame = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [fullGame, setFullGame] = useState();
   const [gameStarted, setGameStarted] = useState(false);
   const [currentBid, setCurrentBid] = useState([]);
-  // const [hasPassed, setHasPassed] = useState(false);
+  const [turns, setTurns] = useState([]); // set when game starts + set everytime there is a new bid (new turn)
+  const [allBids, setAllBids] = useState(null); // holds all current bids from all players. Gets updated on every turn.
+  const [auctionCard, setAuctionCard] = useState("");
+
   const mainPlayerName = useSelector(selectUsername);
   const gamePlayers = useSelector(selectSingleGame);
+
   const params = useParams();
   const { id } = params;
 
@@ -26,18 +34,44 @@ export const MainGame = () => {
     // this is to fetch the current player list before starting
     dispatch(getSingleGame(id));
 
-    // here we get the actual gameState after starting
+    // here we get the actual gameState after starting or when a NEW round starts
     socket.on("gamestate", (data) => {
-      console.log("we got it!", data);
+      console.log("this is the gamestate data", data);
       setFullGame(data);
+
+      // To-Do //
+      // split away from Full game => allBids + turns to place in their own local state for ease of access and update.
       setGameStarted(true);
+
+      // Set allBids data to local state
+      const { bids, turns, currentCard } = data;
+      setAllBids(bids);
+      setTurns(turns);
+      setAuctionCard(currentCard);
+      setCurrentBid([]);
     });
 
-    socket.on("new-turn", (data) => {});
+    // fires at the end of every players turn => updates currentBids and turns (to see who passed and who's turn it is now)
+    socket.on("new-bid", (updatedBidData) => {
+      console.log("updatedTurn", updatedBidData);
+      // update allBids
+      setAllBids(updatedBidData.bids);
+
+      // update turns (local state)
+      setTurns(updatedBidData.turns);
+    });
+
+    socket.on("finish-game", (results) => {
+      console.log("what are the end-game results?", results);
+      dispatch(storeResults(results));
+      // navigate to results page
+      navigate("/results");
+    });
+    // socket.on("new-turn", (data) => {});
   }, [dispatch, id]);
 
+  // post request to start game => triggers backend to create game inital state and send to room.
   const startGame = () => {
-    // post request to start game => triggers backend to create game inital state and send to room.
     dispatch(startNewGame(id));
   };
 
@@ -46,7 +80,11 @@ export const MainGame = () => {
   if (gamePlayers && !gameStarted) {
     return (
       <div>
-        <LobbyList players={gamePlayers.players} id={gamePlayers.id} />
+        <LobbyList
+          players={gamePlayers.players}
+          id={gamePlayers.id}
+          gameName={gamePlayers.name}
+        />
         <button onClick={startGame}>Start game</button>
       </div>
     );
@@ -59,81 +97,156 @@ export const MainGame = () => {
   const myPlayer = players[mainPlayerName];
   const playerNames = Object.keys(players);
 
-  // Getting all the money from the main player
+  // Getting all money card from the main player ---- TODO: Add a check where each card is false
   const { money } = myPlayer;
-  const allMoney = Object.keys(money);
-  const onlyMoney = allMoney.slice(0, 11);
 
-  // Getting all the scores of all players
-  const getScores = playerNames.map((p) => {
-    const player = players[p];
-    const score = player.score;
-    return Object.keys(score);
-  });
+  const submitPlayerBid = (passed, pId) => {
+    const bidState = {
+      bids: {
+        ...allBids,
+        [mainPlayerName]: currentBid,
+      },
+      currentCard: fullGame.currentCard,
+      turns: turns,
+      activeTurn: {
+        username: mainPlayerName,
+        passed,
+      },
+      gameId: fullGame.gameId,
+      playerId: pId,
+    };
+    dispatch(submitBid(bidState));
+  };
 
-  const playerTurn = fullGame.turn[0].username;
-  console.log("what is myPlayer username", myPlayer.username);
+  const playerTurn = turns[0].username;
 
-  // Checks if player can select money or not
+  // Adds selected cards into the currentBid array [25000,20000]
   const selectMoney = (card) => {
-    setCurrentBid([...currentBid, card]);
-    // playerTurn === myPlayer.username
-    //   ? console.log("money selected")
-    //   : console.log("money can't be selected");
+    if (currentBid.includes(card)) return;
+    if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
   };
 
-  // Sets passing turn to the next player
-  const passBid = () => {
-    dispatch(passTurn(fullGame.turn, id));
+  // Converting specialCards to proper values in the front-end
+  const specialCards = () => {
+    const isMultiplyCard = auctionCard.includes("multiply");
+    const isDivideCard = auctionCard.includes("divide");
+    const isMinusCard = auctionCard.includes("minusFive");
+    const isDiscardCard = auctionCard.includes("discardPoints");
+    if (isMultiplyCard) {
+      return "x2";
+    } else if (isDivideCard) {
+      return "½";
+    } else if (isMinusCard) {
+      return "-5";
+    } else if (isDiscardCard) {
+      return "Discard";
+    } else {
+      return auctionCard;
+    }
   };
 
-  console.log("what is updated fullGame", fullGame);
-
-  const currentPlayerPassed = fullGame.turn.find(
+  // Check if current player has passed
+  const currentPlayerPassed = turns.find(
     (t) => t.username === myPlayer.username
   ).passed;
 
-  console.log("did i bid??", currentBid);
+  const totalPlayerBid = currentBid.reduce(
+    (partialSum, a) => parseInt(partialSum) + parseInt(a),
+    0
+  );
+
+  const getAllPlayerBids = playerNames.map((name) => {
+    const player = players[name];
+    return allBids[player.username].reduce((acc, m) => acc + parseInt(m), 0);
+  });
+
+  console.log("what is getPlayerNames?", getAllPlayerBids);
+
+  // const max = arr.reduce(function(a, b) {
+  //   return Math.max(a, b);
+
+  const highestBid = getAllPlayerBids.reduce((a, b) => {
+    return Math.max(a, b);
+  });
+  console.log("what is the highestBid", highestBid);
+
+  console.log("what is allBids?", allBids);
 
   if (gameStarted)
     return (
       <div>
         <div className="highest-bid">
-          <p>Current highest bid</p>
-          <h2>20000</h2>
+          <p>Highest bid</p>
+          <h2>{highestBid}</h2>
         </div>
-        <div className="point-card">7</div>
-        <div className="other-player-bids">
-          {playerNames.map((name) => {
-            const player = players[name];
-            return (
-              <div className="other-player-bid" key={player.id}>
-                {player.username} bids <h3>20000</h3>
-              </div>
-            );
-          })}
+        <div className="main-game">
+          <div className="point-card">{specialCards()}</div>
+          <div className="other-player-bids">
+            {playerNames.map((name) => {
+              const player = players[name];
+              return (
+                <div className="other-player-bid" key={player.id}>
+                  {player.username} bids{" "}
+                  <h3>
+                    {allBids[player.username].reduce(
+                      (acc, m) => acc + parseInt(m),
+                      0
+                    )}
+                  </h3>
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <ScoreboardModal players={players} />
         {playerTurn === myPlayer.username && currentPlayerPassed === false ? (
           <div className="action-buttons">
-            <button onClick={passBid}>Pass</button>
-            <button>Confirm bid</button>
-            <h2>It's your turn</h2>
+            <h3>It's your turn</h3>
+            <button
+              id="pass"
+              onClick={() => submitPlayerBid(true, myPlayer.id)}
+            >
+              Pass
+            </button>
+            <button
+              id={totalPlayerBid <= highestBid ? "button-disabled" : ""}
+              onClick={() => submitPlayerBid(false, myPlayer.id)}
+            >
+              Confirm bid
+            </button>
           </div>
         ) : (
-          "Not your turn"
+          <h3>{playerTurn}'s turn</h3>
         )}
-        <button className="action-buttons">View scores</button>
-        <div>
-          <p>Username: {myPlayer.username}</p>
-          <p>Your current bid</p>
-          <h3>20000</h3>
+        <p>Username: {myPlayer.username}</p>
+        <div className="player-info">
+          <div className="player-info-bid">
+            <p>Your bid</p>
+            <h3>{totalPlayerBid}</h3>
+          </div>
+          <div className="player-info-cards">
+            {currentBid.map((c) => {
+              return <div className="card player-info-card">{c}</div>;
+            })}
+          </div>
         </div>
         <div className="player-money">
-          {onlyMoney.map((m, index) => {
+          {money.map((m, index) => {
             return (
               <div
                 onClick={() => selectMoney(m)}
-                className={"card"}
+                className={
+                  playerTurn === myPlayer.username ? "card" : "card-disabled"
+                }
+                style={
+                  currentBid.includes(m)
+                    ? {
+                        backgroundColor: "#3e885b",
+                        color: "white",
+                        top: "-10px",
+                      }
+                    : {}
+                }
                 key={index}
               >
                 {m}
@@ -141,26 +254,6 @@ export const MainGame = () => {
             );
           })}
         </div>
-
-        {/* <div>
-          {getScores.map((s, index) => {
-            console.log("what is s?", s);
-            return (
-              <div key={index}>
-                <div>{s}</div>
-              </div>
-            );
-          })}
-        </div> */}
       </div>
     );
 };
-
-// const playerNames = Object.keys(players); // [marta, matias, fang];
-
-// playerNames.map(name => {
-//   const theguy = players[name];
-
-//   return <div>{theguy.username}</div>
-
-// })

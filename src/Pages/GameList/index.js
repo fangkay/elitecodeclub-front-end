@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { LobbyGameCard } from "../../Components/LobbyGameCard";
-import { apiUrl } from "../../config/constants";
 import { createGame, getAllGames } from "../../store/game/actions";
 import { selectAllGames } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";
+import { socket } from "../../config/socket";
 
 export const GameList = () => {
   const dispatch = useDispatch();
   const games = useSelector(selectAllGames);
   const username = useSelector(selectUsername);
   const [room, setRoom] = useState("");
-  const navigate = useNavigate();
+  const [gameList, setGameList] = useState(games);
 
   useEffect(() => {
     dispatch(getAllGames);
-  }, [dispatch, room]);
+    socket.on("new-game", (newGame) => {
+      setGameList(...gameList, newGame);
+    });
+  }, [dispatch, room, games, gameList]);
 
   if (!games) return <h3>Loading...</h3>;
+
+  // console.log("what is games", games);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,17 +30,20 @@ export const GameList = () => {
     setRoom("");
   };
 
+  // const sortedGames = games.sort((g1, g2) => g1.createdAt - g2.createdAt);
+
   return (
     <div>
       <div>
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-item">
-            <label htmlFor="room">Room ID</label>
+            <label htmlFor="room">Create new game</label>
           </div>
           <input
             className="form-item form-input"
             name="room"
-            type="number"
+            type="text"
+            value={room}
             placeholder="Enter Room ID"
             onChange={(event) => {
               setRoom(event.target.value);

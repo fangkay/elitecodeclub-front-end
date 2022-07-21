@@ -50,14 +50,13 @@ export const startNewGame = (id) => {
   };
 };
 
-export const passTurn = (turns, gameId) => {
+export const submitBid = (bidState) => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.patch(`${apiUrl}/game/pass`, {
-        turns,
-        gameId,
+      const response = await axios.patch(`${apiUrl}/game/bid`, {
+        bidState,
       });
-      console.log("done!", response);
+      console.log("what is response", response);
     } catch (e) {
       console.log(e.message);
     }

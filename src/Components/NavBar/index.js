@@ -1,4 +1,4 @@
-import logo from "../../Logo-white.png";
+import logo from "../../Logo.svg";
 
 export const NavBar = () => {
   return (
@@ -10,10 +10,11 @@ export const NavBar = () => {
       </div>
       <div>
         <ul className="navbar-links">
-          <li className="navbar-item">RULES</li>
-          <li className="navbar-item">FAQ</li>
           <li className="navbar-item">
-            <a href="http://localhost:3000/">HOME</a>
+            <a href="http://localhost:3000/rules">RULES</a>
+          </li>
+          <li className="navbar-item">
+            <a href="http://localhost:3000/faq">FAQ</a>
           </li>
         </ul>
       </div>

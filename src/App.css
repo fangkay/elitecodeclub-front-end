@@ -18,6 +18,47 @@ body {
   margin: 0 auto;
 }
 
+.accordion {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2rem;
+  background-color: #fff;
+  max-width: 600px;
+  border: 1px solid #3e885b;
+  border-radius: 4px;
+}
+
+.accordion-content {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.accordion-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid #3e885b;
+}
+
+.accordion-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: left;
+}
+
+#button-disabled {
+  background-color: #f5f5f5;
+  color: #312f2f;
+  pointer-events: none;
+}
+
+.money-jar {
+  width: 300px;
+  height: auto;
+  margin: 0 auto 2rem auto;
+}
+
 .navbar {
   align-items: center;
   display: flex;
@@ -29,9 +70,30 @@ body {
 .lobby-game {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 15rem;
   padding: 2rem;
   margin: 1rem auto;
+}
+
+.lobby-game h2 {
+  margin: 0;
+}
+
+.lobby-header {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.lobby-details {
+  margin-top: 8rem;
+}
+
+.lobby-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .navbar-links {
@@ -51,6 +113,22 @@ body {
   margin: 0 2rem 2rem;
 }
 
+.rules-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 4rem;
+  max-width: 600px;
+  font-size: 1.1rem;
+}
+
+.rules-section {
+  margin-bottom: 3rem;
+}
+
+.rules-list {
+  text-align: left;
+}
+
 .card {
   display: flex;
   padding: 1.5rem;
@@ -61,10 +139,36 @@ body {
   transform: rotate(-90deg);
 }
 
+.card-disabled {
+  display: flex;
+  padding: 1.5rem;
+  width: 2.75rem;
+  height: 1rem;
+  margin: 0.5rem -1.25rem;
+  text-align: center;
+  transform: rotate(-90deg);
+}
+
+.results {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.score-cards {
+  display: flex;
+}
+
+.score-card {
+  transform: none;
+  width: 0.2rem;
+  height: 1rem;
+  margin: 0;
+  padding: 1rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -76,18 +180,36 @@ body {
   margin-bottom: 2rem;
 }
 
-.point-card {
+.lobby-content {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+.lobby-header {
+  max-width: 600px;
+  margin: 0 2rem;
+  width: 70%;
+}
+
+.lobby-logo {
   margin: 0 auto;
-  padding: 1.75rem;
-  height: 3rem;
-  width: 1rem;
+  width: 8rem;
+}
+
+.main-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
 }
 
 .other-player-bids {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-left: 1rem;
 }
 
 .other-player-bid {
@@ -98,6 +220,69 @@ body {
   margin: 0.2rem;
 }
 
+.point-card {
+  display: flex;
+  padding: 1.75rem;
+  height: 3rem;
+  width: 1rem;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-info-bid {
+  text-align: left;
+  margin-right: 2rem;
+}
+
+.player-info-cards {
+  display: flex;
+  margin-left: 2rem;
+}
+
+.player-result {
+  display: flex;
+  justify-content: space-between;
+}
+
+.point-card {
+  margin-right: 1rem;
+}
+
+.result-headers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scoreboard-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreboard-headers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scoreboard-players {
+  margin-bottom: 2rem;
+}
+
+.scoreboard-player {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#scoreboard-close-button {
+  background-color: #3e885b;
+  color: #fff;
+  margin: 0 auto;
+}
+
 /* Styling */
 button {
   font-family: "Outfit", sans-serif;
@@ -105,14 +290,19 @@ button {
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background-color: #fff;
+  background-color: #3e885b;
   border: none;
   border-radius: 4px;
-  box-shadow: 0px 0px 0px 1.5px #fff inset;
-  color: #3e885b;
-  padding: 0.5rem 1rem;
+  color: #fff;
+  padding: 0.7rem 1rem;
   height: auto;
   margin: 0 0.5rem;
+  width: 8rem;
+}
+
+.lobby-button {
+  background-color: #fff;
+  color: #3e885b;
 }
 
 button:hover {
@@ -133,6 +323,10 @@ button:hover {
   color: #3e885b;
 }
 
+#pass {
+  background-color: #312f2f;
+}
+
 .card {
   border: 2px solid #3e885b;
   border-radius: 0.25rem;
@@ -143,11 +337,23 @@ button:hover {
   position: relative;
 }
 
+.card-disabled {
+  border: 2px solid #3e885b;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  box-shadow: -2px 2px 4px #dcdcdc;
+  font-weight: bold;
+  color: #3e885b;
+  position: relative;
+  pointer-events: none;
+}
+
 .card:hover,
 .card:active {
   background-color: #3e885b;
   color: white;
   top: -10px;
+  border-color: #fff;
 }
 
 .form {
@@ -176,9 +382,15 @@ button:hover {
   background-color: #3e885b;
   color: #fff;
   letter-spacing: 2px;
+  font-size: 0.8rem;
 }
 
 .navbar-item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-item a:hover {
   color: #d4dfc7;
   text-decoration: none;
 }
@@ -198,10 +410,23 @@ button:hover {
   font-weight: bold;
 }
 
+.player-info {
+  margin-bottom: 2rem;
+}
+
 /* Larger screen */
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 600px) {
   .lobby-list {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
+  }
+
+  .rules-container {
+    margin: 0 auto;
+  }
+
+  .accordion {
+    margin: 0 auto;
   }
 }
