@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getSingleGame,
   startNewGame,
   submitBid,
 } from "../../store/game/actions";
+import { storeResults } from "../../store/game/slice";
 import { selectSingleGame } from "../../store/game/selectors";
 import { selectUsername } from "../../store/user/selectors";
 import { socket } from "../../config/socket";
@@ -13,6 +14,7 @@ import { LobbyList } from "../../Components/LobbyList";
 import { ScoreboardModal } from "../../Components/ScoreboardModal";
 
 export const MainGame = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [fullGame, setFullGame] = useState();
@@ -51,12 +53,19 @@ export const MainGame = () => {
 
     // fires at the end of every players turn => updates currentBids and turns (to see who passed and who's turn it is now)
     socket.on("new-bid", (updatedBidData) => {
-      console.log("what is updatedBidData?", updatedBidData);
+      console.log("updatedTurn", updatedBidData);
       // update allBids
       setAllBids(updatedBidData.bids);
 
       // update turns (local state)
       setTurns(updatedBidData.turns);
+    });
+
+    socket.on("finish-game", (results) => {
+      console.log("what are the end-game results?", results);
+      dispatch(storeResults(results));
+      // navigate to results page
+      navigate("/results");
     });
     // socket.on("new-turn", (data) => {});
   }, [dispatch, id]);
@@ -90,7 +99,6 @@ export const MainGame = () => {
 
   // Getting all money card from the main player ---- TODO: Add a check where each card is false
   const { money } = myPlayer;
-  console.log("what is money?", money);
 
   // Getting all the scores of all players
   // const getScores = playerNames.map((p) => {
@@ -117,6 +125,8 @@ export const MainGame = () => {
     dispatch(submitBid(bidState));
   };
 
+  // console.log("what is fullGame?", fullGame);
+
   const playerTurn = turns[0].username;
 
   // Adds selected cards into the currentBid array [25000,20000]
@@ -125,6 +135,7 @@ export const MainGame = () => {
     if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
   };
 
+  // Converting specialCards to proper values in the front-end
   const specialCards = () => {
     const isMultiplyCard = auctionCard.includes("multiply");
     const isDivideCard = auctionCard.includes("divide");
@@ -196,7 +207,7 @@ export const MainGame = () => {
         ) : (
           <h3>{playerTurn}'s turn</h3>
         )}
-        {/* <p>Username: {myPlayer.username}</p> */}
+        <p>Username: {myPlayer.username}</p>
         <div className="player-info">
           <div className="player-info-bid">
             <p>Your bid</p>
@@ -234,4 +245,5 @@ export const MainGame = () => {
         </div>
       </div>
     );
+  // if (gameFinished) return <h1>This game is finished</h1>;
 };

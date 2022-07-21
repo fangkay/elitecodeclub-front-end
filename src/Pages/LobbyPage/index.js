@@ -16,7 +16,13 @@ export const LobbyPage = () => {
 
   return (
     <div className="lobby-content">
-      <img src={logo} alt="bidbybid-logo" className="lobby-logo"></img>
+      <div className="lobby-header">
+        <img src={logo} alt="bidbybid-logo" className="lobby-logo"></img>
+        <h3>
+          A card game where players bid on cards to earn points. But don't spend
+          too much because the poorest player can never win
+        </h3>
+      </div>
       <form className="form">
         <div className="form-item">
           <label htmlFor="username">Your username</label>

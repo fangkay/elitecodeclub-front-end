@@ -18,6 +18,35 @@ body {
   margin: 0 auto;
 }
 
+.accordion {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2rem;
+  background-color: #fff;
+  max-width: 600px;
+  border: 1px solid #3e885b;
+  border-radius: 4px;
+}
+
+.accordion-content {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.accordion-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid #3e885b;
+}
+
+.accordion-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: left;
+}
+
 .navbar {
   align-items: center;
   display: flex;
@@ -39,8 +68,18 @@ body {
   margin: 0;
 }
 
+.lobby-header {
+  margin-bottom: 2rem;
+}
+
 .lobby-details {
   margin-top: 8rem;
+}
+
+.lobby-list {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
 }
 
 .navbar-links {
@@ -58,6 +97,22 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0 2rem 2rem;
+}
+
+.rules-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 4rem;
+  max-width: 600px;
+  font-size: 1.1rem;
+}
+
+.rules-section {
+  margin-bottom: 3rem;
+}
+
+.rules-list {
+  text-align: left;
 }
 
 .card {
@@ -78,6 +133,10 @@ body {
   margin: 0.5rem -1.25rem;
   text-align: center;
   transform: rotate(-90deg);
+}
+
+.score-cards {
+  display: flex;
 }
 
 .score-card {
@@ -109,9 +168,13 @@ body {
   margin: 8rem 0;
 }
 
+.lobby-header {
+  max-width: 600px;
+  margin: 0 2rem 2rem 2rem;
+}
+
 .lobby-logo {
   width: 8rem;
-  margin-bottom: 4rem;
 }
 
 .main-game {
@@ -288,6 +351,11 @@ button:hover {
 }
 
 .navbar-item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-item a:hover {
   color: #d4dfc7;
   text-decoration: none;
 }
@@ -312,9 +380,18 @@ button:hover {
 }
 
 /* Larger screen */
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 600px) {
   .lobby-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+  }
+
+  .rules-container {
+    margin: 0 auto;
+  }
+
+  .accordion {
+    margin: 0 auto;
   }
 }

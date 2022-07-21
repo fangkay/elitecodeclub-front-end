@@ -6,23 +6,32 @@ import { selectSingleGame } from "../../store/game/selectors";
 export const LobbyList = (props) => {
   const getGame = useSelector(selectSingleGame);
   const getPlayers = getGame.players;
-  const [allPlayers, setAllPlayers] = useState([getPlayers]);
+  const [allPlayers, setAllPlayers] = useState(getPlayers);
 
+  // useEffect(() => {
+  //   socket.on("new-player", (newPlayer) => {
+  //     console.log("got message from new-player emit");
+  //     setAllPlayers([...allPlayers, newPlayer]);
+  //   });
+  // }, [allPlayers, getPlayers]);
+
+  console.log("getPlayers", allPlayers);
   useEffect(() => {
-    setAllPlayers(getPlayers);
+    socket.removeAllListeners("new-player");
+
     socket.on("new-player", (newPlayer) => {
       console.log("got message from new-player emit");
-      setAllPlayers(...allPlayers, newPlayer);
+      setAllPlayers([...allPlayers, newPlayer]);
     });
-  }, [allPlayers, getPlayers]);
+  }, [allPlayers]);
 
   return (
     <div className="lobby-details">
       <p>Lobby</p>
       <h2>{props.gameName}</h2>
-      <p>Players: {props.players.length} / 5</p>
+      <p>Players: {allPlayers.length} / 5</p>
       <div className="player-list">
-        {props.players.map((props, index) => {
+        {allPlayers.map((props, index) => {
           return (
             <div key={props.id}>
               <p>

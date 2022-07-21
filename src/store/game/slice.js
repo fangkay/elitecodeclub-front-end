@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  results: null,
+};
 
 export const gameSlice = createSlice({
   name: "game",
@@ -15,9 +17,13 @@ export const gameSlice = createSlice({
     fetchSingleGame: (state, action) => {
       state.currentGame = action.payload;
     },
+    storeResults: (state, action) => {
+      state.results = action.payload;
+    },
   },
 });
 
-export const { createNewGame, fetchGames, fetchSingleGame } = gameSlice.actions;
+export const { createNewGame, fetchGames, fetchSingleGame, storeResults } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;

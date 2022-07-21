@@ -16,8 +16,6 @@ export const GameList = () => {
   useEffect(() => {
     dispatch(getAllGames);
     socket.on("new-game", (newGame) => {
-      // const updatedGameList = games.push(newGame);
-      // const updatedGameList = [...games, newGame];
       setGameList(...gameList, newGame);
     });
   }, [dispatch, room, games, gameList]);

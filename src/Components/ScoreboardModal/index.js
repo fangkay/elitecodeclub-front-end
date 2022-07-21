@@ -17,7 +17,6 @@ export const ScoreboardModal = (props) => {
   }
 
   const players = props.players;
-  console.log("what is players?", players);
 
   useEffect(() => {
     setArrayOfPlayers(Object.keys(players));
@@ -41,8 +40,8 @@ export const ScoreboardModal = (props) => {
           <div className="scoreboard-players">
             {arrayOfPlayers.map((player) => {
               return (
-                <div className="scoreboard-player">
-                  {player}
+                <div key={player.id} className="scoreboard-player">
+                  <h3>{player}</h3>
                   <div className="score-cards">
                     {players[player].score.map((card) => {
                       return (
