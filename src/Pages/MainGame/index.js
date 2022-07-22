@@ -122,8 +122,13 @@ export const MainGame = () => {
 
   // Adds selected cards into the currentBid array [25000,20000]
   const selectMoney = (card) => {
-    if (currentBid.includes(card)) return;
-    if (playerTurn === myPlayer.username) setCurrentBid([...currentBid, card]);
+    if (currentBid.includes(card) && playerTurn === myPlayer.username) {
+      const filteredBid = currentBid.filter((c) => c !== card);
+      console.log("IM HERE", card, currentBid, filteredBid);
+      setCurrentBid(filteredBid);
+    } else if (playerTurn === myPlayer.username) {
+      setCurrentBid([...currentBid, card]);
+    }
   };
 
   // Converting specialCards to proper values in the front-end
@@ -170,7 +175,7 @@ export const MainGame = () => {
   });
   console.log("what is the highestBid", highestBid);
 
-  console.log("what is allBids?", allBids);
+  console.log("what is currentBid?", currentBid);
 
   if (gameStarted)
     return (
@@ -226,7 +231,11 @@ export const MainGame = () => {
           </div>
           <div className="player-info-cards">
             {currentBid.map((c) => {
-              return <div className="card player-info-card">{c}</div>;
+              return (
+                <div key={c.id} className="card player-info-card">
+                  {c}
+                </div>
+              );
             })}
           </div>
         </div>
@@ -234,6 +243,7 @@ export const MainGame = () => {
           {money.map((m, index) => {
             return (
               <div
+                id={m.id}
                 onClick={() => selectMoney(m)}
                 className={
                   playerTurn === myPlayer.username ? "card" : "card-disabled"
@@ -245,7 +255,12 @@ export const MainGame = () => {
                         color: "white",
                         top: "-10px",
                       }
-                    : {}
+                    : {
+                        backgroundColor: "#fff",
+                        color: "#3e885b",
+                        border: "2px solid #3e885b",
+                        top: 0,
+                      }
                 }
                 key={index}
               >
