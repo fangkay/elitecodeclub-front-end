@@ -1,9 +1,9 @@
 import io from "socket.io-client";
 const socket = io.connect("https://bidbybid.herokuapp.com", {
-  withCredentials: true,
-  extraHeaders: {
-    "my-custom-header": "abcd",
-  },
+  // withCredentials: true,
+  // extraHeaders: {
+  //   "my-custom-header": "abcd",
+  // },
 });
 
 socket.on("some_message", (data) => {
