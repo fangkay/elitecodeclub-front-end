@@ -1,9 +1,5 @@
 <img src="https://raw.githubusercontent.com/fangkay/elitecodeclub-front-end/main/bidbybid-header.png"/>
 
-# bidbybid
-
-A card game where players bid on cards to gain points
-
 ### Main flow of the game
 
 Each player starts with the same amount of money which they can use to bid. At the start of the round a card is drawn from the deck, these cards have point values ranging from 1 to 10. Players bid their desireable amount that they are willing to pay for that card. As soon as all players have passed the player with the highest bid wins that card.
