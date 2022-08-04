@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/fangkay/elitecodeclub-front-end/main/bidbybid-header.png"/>
+
 # bidbybid
 
 A card game where players bid on cards to gain points
