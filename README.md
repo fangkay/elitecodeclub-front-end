@@ -1,4 +1,10 @@
-<img src="https://raw.githubusercontent.com/fangkay/elitecodeclub-front-end/main/bidbybid-header.png"/>
+# bidbybid
+
+A card game where players bid on cards to gain points
+
+### About
+
+bidbybid is a Full Stack online multiplayer game built in React and was created with a backend consisting of NodeJS and Express. Socket.io is used to establish a real time connection between different clients and the server. Additionally, the Socket.io is used to exchange the latest game state inbetween clients.
 
 ### Main flow of the game
 
@@ -12,9 +18,13 @@ Whoever at the end of the game has the highest amount of points AND does not hav
 
 ### Installation
 
-Use $ npm install to install all packages that are required to run bidbybid.
+Install the latest packages
 
-After installation has finished run $ npm run start , your browser will open automatically displaying the initial home screen.
+`$ npm install`
+
+Go to localhost:3000 or run the package with
+
+`$ npm run start`
 
 ## Usage
 
